@@ -4,9 +4,12 @@ import authRoutes from "./routers/rutas.routers.js";
 
 const app = express();
 
+
+// muestra los get o post del user consola
 app.use(morgan("dev")); 
-app.use("/api", authRoutes);
 app.use(express.json())
+
+app.use("/", authRoutes);
 
 
 export default app; 
