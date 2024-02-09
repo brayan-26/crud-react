@@ -1,13 +1,37 @@
-// importamos las consultas a la tabla para las task 
-import {insertTask} from '../models/task.model.js'; 
+// importamos las consultas a la tabla para las task
+import { insertTask, verfiyEmail, getTask } from "../models/task.model.js";
 
-export const task =  async (req,res)=>{
-    const {titulo, descripcion, fecha} = req.body;
-    const results = await insertTask([titulo, descripcion, fecha]);
+export const task = async (req, res) => {
+  const { email } = req.body[0];
+  const { titulo, descripcion, fecha } = req.body[1];
+  //   implemetamos las consulta
+  const verifyUser = await verfiyEmail([email]);
 
-    if(results.length > 0){
-        res.send("Datos guardados correctamente")
-    }else{
-        res.send("No se guardo ningun dato")
+  if (verifyUser[0].length > 0) {
+    const idUser = verifyUser[0][0].id_user;
+    const results = await insertTask([titulo, descripcion, fecha, idUser]);
+    if (results.length > 0) {
+      res.send("tareas guardadas");
     }
-}
+  } else {
+    res.send("no se econtro el usuario");
+  }
+};
+
+export const taskGet = async (req, res) => {
+  const { email } = req.body;
+  const verifyUser = await verfiyEmail([email]);
+
+  if (verifyUser[0].length > 0) {
+    const idUser = verifyUser[0][0].id_user;
+    const result = await getTask([idUser]);
+    if (result[0].length > 0) {
+      res.send("tareas encontradas");
+      console.log("tareas", result[0]);
+    } else {
+      res.send("el usuario no tiene tareas")
+    }
+  } else {
+    res.send("no se econtraron el usuario");
+  }
+};
