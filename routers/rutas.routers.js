@@ -1,11 +1,11 @@
+// llamamos router para crear las rutas de las query
 import Router from "express";
-import { register, login, logout } from "../controllers/rutas.controller.js";
+import { register, login } from "../controllers/rutas.controller.js";
 
-const router = Router();
+const routerUser = Router();
 
-// creamos rutas
-router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout)
+// creamos rutas para el register y login del user
+routerUser.post("/register", register);
+routerUser.post("/login", login);
 
-export default router; 
+export default routerUser; 

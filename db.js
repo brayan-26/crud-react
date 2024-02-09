@@ -1,5 +1,7 @@
+// importamos el mysql2 
 import mysql from "mysql2";
 
+// creamos la conexion con la base de datos
 const conexion = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -16,4 +18,5 @@ conexion.connect((err) => {
   }
 });
 
+// exportamos la conexion
 export default conexion;

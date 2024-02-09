@@ -1,5 +1,7 @@
+// importamos las consultas a la base de datos
 import { insertUser, loginUser } from "../models/user.model.js";
 
+// verificamos la consulta sql register
 export const register = async (req, res) => {
   const { nombre, apellido, email } = req.body;
   const results = await insertUser([nombre, apellido, email]);
@@ -10,6 +12,7 @@ export const register = async (req, res) => {
   }
 };
 
+// verificamos la consulta sql login
 export const login = async (req, res) => {
   const { nombre, apellido } = req.body;
   const results = await loginUser([nombre, apellido]);
@@ -21,7 +24,3 @@ export const login = async (req, res) => {
   }
 };
 
-export const logout = async (req, res) => {
-  res.send("Logout melo")
-  console.log("melo")
-}
