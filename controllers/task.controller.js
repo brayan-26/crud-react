@@ -1,5 +1,5 @@
 // importamos las consultas a la tabla para las task
-import { insertTask, verfiyEmail, getTask } from "../models/task.model.js";
+import { insertTask, verfiyEmail, getTask, getTaskTitle } from "../models/task.model.js";
 
 export const task = async (req, res) => {
   const { email } = req.body[0];
@@ -35,3 +35,29 @@ export const taskGet = async (req, res) => {
     res.send("no se econtraron el usuario");
   }
 };
+
+export const taskGetId = async (req, res) => {
+  const { email } = req.body[0];
+  const { titulo } = req.body[1];
+  const verifyUser = await verfiyEmail([email])
+
+  if (verifyUser[0].length > 0) {
+    const idUser = verifyUser[0][0].id_user;
+    const result = await getTask([idUser]);
+    if (result[0].length > 0) {
+      const taskTitle = await getTaskTitle([titulo])
+      if (taskTitle[0].length > 0) {
+        res.send("el usuario tiene tareas con ese titulo ")
+        console.log(taskTitle[0]);
+      } else {
+        res.send("el usuario NO tiene tareas con ese titulo")
+      }
+    } else {
+      res.send("el usuario NO tiene tareas")
+    }
+
+  } else {
+    res.send("paila")
+  }
+
+}

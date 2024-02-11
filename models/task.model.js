@@ -27,8 +27,17 @@ export const getTask = async (datos) => {
   try {
     const sql = "SELECT * FROM task WHERE id_user = ?";
     const result = conexion.promise().query(sql, datos);
-    return result; 
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
+export const getTaskTitle = async (datos) => {
+  try {
+    const sql = "SELECT * FROM task WHERE title = ? ";
+    const result = conexion.promise().query(sql, datos);
+    return result; 
+  } catch (error) {
+    console.log(error)
+  }
+}
