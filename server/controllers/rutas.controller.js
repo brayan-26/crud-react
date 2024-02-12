@@ -7,7 +7,7 @@ export const register = async (req, res) => {
   const results = await insertUser([nombre, apellido, email]);
 
   if (results.length > 0) {
-    res.send("Registro exitoso");
+    res.send("registro exitoso")
     
   } else {
     res.send("Registro erroneo");

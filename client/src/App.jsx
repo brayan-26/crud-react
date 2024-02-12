@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import loginPage from "./page/loginPage.jsx";
-import registerPage from "./page/registerPage.jsx";
+import LoginPage from "./page/LoginPage"; 
+import RegisterPage from "./page/RegisterPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<h1>melo la prinipal</h1>} />
-        <Route path="/login" element={< loginPage/>} />
-        <Route path="/register" element={ <registerPage/>} />
-        {/* <Route path="/task" element={} /> */}
+        <Route path="/" element={<h1>main</h1>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );
