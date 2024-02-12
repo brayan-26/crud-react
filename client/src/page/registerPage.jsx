@@ -1,50 +1,75 @@
-// manejamos las validaciones con react hook form
+import { useState } from "react";
+// namejamos useform para el envio del formulario
 import { useForm } from "react-hook-form";
 import { registerRequest } from "../api/auths";
+// esto nos permite renderizar a otra pagina
 import { useNavigate } from "react-router-dom";
 
-function registerPage() {
+function RegisterPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // esto nos permite renderizar a otra pagina
+  const [mensaje, setMensaje] = useState("");
+
+  // para renderizar a otra pagina
   const navegacion = useNavigate();
 
   const onSubmit = handleSubmit(async (values) => {
-    const res = await registerRequest(values);
-    if (res) {
-      // navegacion("/");
-      const mensaje = res.data
-      console.log(mensaje)
-      
-    } else {
-      console.log("paila");
+    try {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const gamil = values.email;
+      console.log(gamil)
+      if (!emailRegex.test(values.email)) {
+        setMensaje(`el email es invalido ${gamil}`);
+      } else {
+        const res = await registerRequest(values);
+        if (res) {
+          alert(res.data);
+          navegacion("/");
+        } else {
+          console.log("paila");
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
 
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input type="text" {...register("nombre", { required: true })} />
-        {/* renderiza errores, campos vacios */}
-        {errors.nombre && <p>username is required</p>}
+        <input
+          type="text"
+          placeholder="name"
+          {...register("nombre", { required: true })}
+        />
+        {errors.nombre && <p>El nombre es obligatorio</p>}
+
         <br />
-        <input type="text" {...register("apellido", { required: true })} />
-        {/* renderiza errores, campos vacios */}
-        {errors.apellido && <p>emnail is required</p>}
+        <input
+          type="text"
+          placeholder="lastname"
+          {...register("apellido", { required: true })}
+        />
+        {errors.apellido && <p>El apellido es obligatorio</p>}
         <br />
-        <input type="email" {...register("email", { required: true })} />
-        {/* renderiza errores, campos vacios */}
-        {errors.email && <p>email is required</p>}
+        <input
+          type="email"
+          placeholder="email"
+          {...register("email", { required: true })}
+        />
+        {errors.email && <p>El correo electrónico es obligatorio</p>}
         <br />
-        
-        <button type="submit">enviar</button>
+
+        <button type="submit">Enviar</button>
       </form>
+
+      {mensaje && <h1>{mensaje}</h1>}
     </div>
   );
 }
 
-export default registerPage;
+export default RegisterPage;

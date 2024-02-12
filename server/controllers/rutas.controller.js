@@ -5,7 +5,7 @@ import { insertUser, loginUser } from "../models/user.model.js";
 export const register = async (req, res) => {
   const { nombre, apellido, email } = req.body;
   const results = await insertUser([nombre, apellido, email]);
-
+  
   if (results.length > 0) {
     res.send("registro exitoso")
     
