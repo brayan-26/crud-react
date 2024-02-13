@@ -15,7 +15,7 @@ export const insertUser = async (datos) => {
 // creamos la consulta sql del login
 export const loginUser = async (datos) => {
   try {
-    const sql = "SELECT * FROM usuario WHERE name = ? AND lastname = ?";
+    const sql = "SELECT * FROM usuario WHERE name = ? AND email = ?";
     const result = await conexion.promise().query(sql, datos);
     return result;
   } catch (error) {
