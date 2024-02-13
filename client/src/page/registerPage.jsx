@@ -1,75 +1,30 @@
-import { useState } from "react";
-// namejamos useform para el envio del formulario
+import React from "react";
 import { useForm } from "react-hook-form";
 import { registerRequest } from "../api/auths";
-// esto nos permite renderizar a otra pagina
-import { useNavigate } from "react-router-dom";
 
-function RegisterPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const [mensaje, setMensaje] = useState("");
-
-  // para renderizar a otra pagina
-  const navegacion = useNavigate();
-
+function registerPage() {
+  const { register, handleSubmit } = useForm();
+  // funion del registro del usuario
   const onSubmit = handleSubmit(async (values) => {
-    try {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const gamil = values.email;
-      console.log(gamil)
-      if (!emailRegex.test(values.email)) {
-        setMensaje(`el email es invalido ${gamil}`);
-      } else {
-        const res = await registerRequest(values);
-        if (res) {
-          alert(res.data);
-          navegacion("/");
-        } else {
-          console.log("paila");
-        }
-      }
-    } catch (error) {
-      console.error(error);
+    const res = await registerRequest(values);
+    if (res.data === true) {
+      console.log("Bien");
+    }else{
+      console.log("error al ingresar el usuario")
     }
   });
-
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="name"
-          {...register("nombre", { required: true })}
-        />
-        {errors.nombre && <p>El nombre es obligatorio</p>}
-
+        <input type="text" {...register("nombre", { required: true })} />
         <br />
-        <input
-          type="text"
-          placeholder="lastname"
-          {...register("apellido", { required: true })}
-        />
-        {errors.apellido && <p>El apellido es obligatorio</p>}
+        <input type="text" {...register("apellido", { required: true })} />
         <br />
-        <input
-          type="email"
-          placeholder="email"
-          {...register("email", { required: true })}
-        />
-        {errors.email && <p>El correo electrónico es obligatorio</p>}
-        <br />
-
-        <button type="submit">Enviar</button>
+        <input type="text" {...register("email", { required: true })} /> <br />
+        <button type="submit">Register</button>
       </form>
-
-      {mensaje && <h1>{mensaje}</h1>}
     </div>
   );
 }
 
-export default RegisterPage;
+export default registerPage;
