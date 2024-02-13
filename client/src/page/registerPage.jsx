@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registerRequest } from "../api/auths";
 import { useNavigate } from "react-router-dom";
 
 function registerPage() {
   // --------------------------
-  // funion del registro del usuario
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const navegate  = useNavigate();
+  const navegate = useNavigate();
+  const [mensaje, setMensaje] = useState(null);
 
   const onSubmit = handleSubmit(async (values) => {
     const res = await registerRequest(values);
@@ -21,6 +21,7 @@ function registerPage() {
         navegate("/");
       } else {
         console.log(res.data);
+        setMensaje(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -39,6 +40,7 @@ function registerPage() {
         <br />
         <input type="text" {...register("email", { required: true })} /> <br />
         {errors.email && <p>The email is required</p>}
+        {mensaje && <p>{mensaje}</p>}
         <button type="submit">Register</button>
       </form>
     </div>
