@@ -23,7 +23,7 @@ function registerPage() {
   const [mensaje, setMensaje] = useState(null);
 
   const onSubmit = handleSubmit(async (values) => {
-    signup(values);
+     signup(values);
   });
 
   // --------------------------
