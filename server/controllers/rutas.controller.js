@@ -12,7 +12,7 @@ export const register = async (req, res) => {
   } else {
     const results = await insertUser([nombre, apellido, email]);
     if (results.length > 0) {
-      console.log("usuario registrado")
+      
       res.send("usuario registrado")
     } else {
       res.send("Registro erroneo");
@@ -31,7 +31,7 @@ export const login = async (req, res) => {
 
   if (results[0].length > 0) {
     console.log("Inicio de sesión exitoso");
-    res.send("inicio de sesion exitoso")
+    res.json({success : true, data: "inicio de sesion melo"})
   } else {
     res.send("Nombre y/o apellido incorrectos");
   }

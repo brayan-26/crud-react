@@ -1,5 +1,6 @@
 import { createContext, useState, useContext } from "react";
-import { registerRequest } from "../api/auths";
+import { registerRequest, loginRequest } from "../api/auths";
+
 
 export const AuthContext = createContext();
 export const useAuth = () => {
@@ -12,18 +13,32 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthentcated, setIsAuthentcated] = useAuth(false);
+  const [isAuthentcated, setIsAuthentcated] = useState(false);
 
   const signup = async (user) => {
-    const res = await registerRequest(user);
-    console.log(res.data);
-    setUser(res.data);
-    setIsAuthentcated(true);
+    try {
+      const res = await registerRequest(user);
+      setUser(res.data);
+      setIsAuthentcated(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const signin = async(user)=>{
+    try {
+      const res = await loginRequest(user);
+      setUser(res.data);
+      setIsAuthentcated(true);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <AuthContext.Provider
       value={{
         signup,
+        signin,
         user,
         isAuthentcated,
       }}

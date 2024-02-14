@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function registerPage() {
-  // --------------------------
+  // -------------------------- 
+  // agregar validaciones 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const {signup, user, isAuthentcated} = useAuth()
-
   const navegate = useNavigate();
+  const { signup, user, isAuthentcated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthentcated) {
+      navegate("/task");
+    }
+  }, [isAuthentcated]);
+
   const [mensaje, setMensaje] = useState(null);
 
   const onSubmit = handleSubmit(async (values) => {
-    const results = signup(values);
-    console.log(results.data);
+    signup(values);
   });
 
   // --------------------------
