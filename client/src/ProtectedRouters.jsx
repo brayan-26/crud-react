@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ProtectedRouters() {
+function ProtectedRouters(use) {
   return (
     <div>ProtectedRouters</div>
   )

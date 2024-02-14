@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useForm,  } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { loginRequest } from "../api/auths";
-
+import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
   // --------------------------
@@ -16,9 +16,11 @@ function LoginPage() {
   const [mensaje, setMensaje] = useState(null);
   const onSubmit = handleSubmit(async (values) => {
     const res = await loginRequest(values);
+    const token = res.data.token;
     try {
-      if (res.data === true) {
-        navegate('/')
+      if (res.data.success === true) {
+        console.log(token)
+        navegate("/task");
       } else {
         console.log(res.data);
         setMensaje(res.data);
@@ -38,9 +40,9 @@ function LoginPage() {
         {errors.email && <p>email is required</p>}
         {mensaje && <p>{mensaje}</p>}
         <button type="submit">Iniciar sesion</button>
-        <p>Aun  no tiees cuenta? <br />
-        <Link to= '/register'>registrate</Link>
-
+        <p>
+          Aun no tiees cuenta? <br />
+          <Link to="/register">registrate</Link>
         </p>
       </form>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { registerRequest } from "../api/auths";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function registerPage() {
   // --------------------------
@@ -10,22 +10,14 @@ function registerPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const {signup, user, isAuthentcated} = useAuth()
 
   const navegate = useNavigate();
   const [mensaje, setMensaje] = useState(null);
 
   const onSubmit = handleSubmit(async (values) => {
-    const res = await registerRequest(values);
-    try {
-      if (res.data === true) {
-        navegate("/");
-      } else {
-        console.log(res.data);
-        setMensaje(res.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    const results = signup(values);
+    console.log(results.data);
   });
 
   // --------------------------
