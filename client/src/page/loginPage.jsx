@@ -22,6 +22,7 @@ function LoginPage() {
       navegate("/task");
     }
   }, [isAuthentcated]);
+  
   const onSubmit = handleSubmit(async (values) => {
     const results = signin(values)
     console.log(results)
